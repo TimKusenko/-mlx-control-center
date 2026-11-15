@@ -2,20 +2,22 @@
 
 **For people who have nothing installed yet.**
 
+Works with any computer (Linux, Mac, Windows) and any Mac.
+
 ---
 
 ## Overview – What You'll Have
 
 ```
-Your Laptop (Linux/Mac)          SSH          Your Mac mini
+Your Computer          SSH          Your Mac
 ┌─────────────────────┐       ┌───────┐      ┌──────────────┐
 │ $ mlx chat          │       │ SSH   │      │ MLX Server   │
-│ > Ask questions     │──────►│       │─────►│ Llama 7B     │
-│ < Get answers       │◄──────│ Tunnel│◄─────│ Mistral 7B   │
+│ > Ask questions     │──────►│       │─────►│ AI Model     │
+│ < Get answers       │◄──────│ Tunnel│◄─────│ (Llama, etc) │
 └─────────────────────┘       └───────┘      └──────────────┘
 ```
 
-**Result**: You chat with AI models from your laptop. Models run on your Mac.
+**Result**: Chat with AI models from your computer. Models run on your Mac.
 
 ---
 
@@ -33,9 +35,9 @@ Your Laptop (Linux/Mac)          SSH          Your Mac mini
 
 ### What is MLX?
 
-MLX = Machine Learning on Apple Silicon. It's the AI framework that runs the models.
+MLX = Machine Learning on Apple Silicon. It's the framework that runs the AI models efficiently on Mac.
 
-**On your Mac, open Terminal:**
+**On your Mac (open Terminal or SSH into it):**
 
 ### 1a. Install Homebrew (if you don't have it)
 

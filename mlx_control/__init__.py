@@ -1,8 +1,8 @@
-"""MLX Control Center — Arch frontend for Mac MLX inference API."""
+"""MLX Control Center — Remote control for MLX inference API."""
 
 __version__ = "2.0.0"
-__author__ = "Tim Kusenko"
-__description__ = "Remote control and monitoring for MLX models running on Mac mini"
+__author__ = "Contributors"
+__description__ = "Remote control and monitoring for MLX models running on your Mac"
 
 from .config import Config
 from .api import APIClient

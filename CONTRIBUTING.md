@@ -107,6 +107,6 @@ Your PR should include:
 
 ## Questions?
 
-Open an issue or reach out to Tim Kusenko.
+Open a GitHub issue with your question. Maintainers will respond.
 
 Thanks for contributing! 🎉

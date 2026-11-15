@@ -34,18 +34,20 @@ This tool communicates with your Mac mini over SSH. Security best practices:
 3. **Use SSH config** for convenience:
    ```bash
    # ~/.ssh/config
-   Host mac
+   Host mymac
      HostName your-mac.local
-     User tim
+     User yourname
      IdentityFile ~/.ssh/id_ed25519
    ```
+   Then: `ssh mymac` instead of typing full address
 
 4. **Firewall**: Restrict SSH to trusted networks only
 
 ## Reporting Vulnerabilities
 
-If you discover a security vulnerability, please email:
-**timkusenko.tk@gmail.com**
+If you discover a security vulnerability, please report it to the maintainers privately via GitHub Security Advisory:
+
+https://github.com/security/advisories
 
 Do NOT open a public GitHub issue for security vulnerabilities.
 
