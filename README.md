@@ -45,7 +45,13 @@ mlx chat
 
 ---
 
-## Quick Start (5 Steps)
+## 🚀 Quick Start
+
+**Complete beginner?** See [SETUP_GUIDE.md](SETUP_GUIDE.md) for step-by-step from zero.
+
+**Already have MLX on Mac?** Follow these 5 steps:
+
+## Quick Start (For Existing MLX Users)
 
 ### 1. Make Sure MLX Runs on Mac
 
