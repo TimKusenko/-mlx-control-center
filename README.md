@@ -1,132 +1,178 @@
 # MLX Control Center
 
-Remote control and monitoring for [MLX](https://ml-explore.github.io/mlx/) (Machine Learning on Apple Silicon) running on Mac mini.
+**Remote Control for MLX on Mac** – Chat with LLM models running on your Mac mini, from your Arch Linux laptop.
 
-**Status**: Beta. Works with a running MLX API server on Mac. Install dependencies on Mac first (see [Mac Setup](#mac-setup)).
+This is a **remote controller** (Fernbedienung). The AI models run on your Mac. You control them from your laptop via SSH.
 
-## Features
+## How It Works (In Plain English)
 
-- **Chat Interface** — Talk to multiple LLM models
-- **Model Management** — List, download, delete models from Hugging Face
-- **System Monitoring** — CPU, RAM, disk, network stats (btop, nettop)
-- **Live Logs** — Stream API logs in real-time
-- **Configuration** — Set temperature, max tokens, system prompts
-- **SSH Tunnel** — Works over network (no local API required)
+```
+Your Laptop (Arch)        SSH          Mac mini
+┌──────────────┐      ┌────────┐      ┌─────────────┐
+│ mlx chat     │ ────►│  SSH   │─────►│ MLX Server  │
+│ (you type)   │      └────────┘      │ (AI runs)   │
+└──────────────┘      ◄────────┐      └─────────────┘
+                       Answers  └──────►
+```
 
-## Quick Start
+1. **You** type a question on your laptop
+2. **This tool** sends it via SSH to your Mac
+3. **Mac's MLX** generates an answer (AI runs there)
+4. **Answer** comes back to your laptop
+5. **You see** the result
 
-### 1. Install
+---
+
+## What You Need
+
+### ✅ On Your Mac (The AI Computer)
+
+MLX framework installed and running. Something like:
+```bash
+brew install mlx-lm
+pip install huggingface_hub
+# MLX server listening on http://127.0.0.1:8080
+```
+
+### ✅ On Your Laptop (The Remote Control)
+
+This tool:
+```bash
+pip install mlx-control-center
+mlx init
+mlx chat
+```
+
+---
+
+## Quick Start (5 Steps)
+
+### 1. Make Sure MLX Runs on Mac
+
+```bash
+# On your Mac:
+python ~/security-ai/multi-model-api/server.py
+# or systemctl --user start mlx-api
+```
+
+Server should be on `http://127.0.0.1:8080` (or note the URL).
+
+### 2. Install Tool on Laptop
 
 ```bash
 pip install mlx-control-center
 ```
 
-### 2. First-Time Setup
+### 3. Setup (One Time)
 
 ```bash
 mlx init
+
+# Asks:
+# - Your Mac's address? → tim@192.168.178.49 (or your-mac.local)
+# - API URL? → (just press Enter for default)
+# - API key? → (your auth token)
+
+# Done!
 ```
 
-You'll be prompted for:
-- **SSH host**: Your Mac's address (e.g., `user@mac.local` or `user@192.168.1.100`)
-- **API URL**: Where the MLX API runs (default: `http://127.0.0.1:8080`)
-- **API key**: Authentication token
-
-### 3. Verify
+### 4. Test
 
 ```bash
 mlx status
+
+# Should show Mac is reachable + API online
 ```
 
-Should show Mac hardware and API status.
-
-## Usage
-
-### Interactive Menu
-```bash
-mlx
-```
-
-### Direct Commands
-```bash
-mlx chat              # Quick chat with a model
-mlx editor            # Advanced chat (system prompt, parameters)
-mlx models            # Manage cached models
-mlx monitor           # System monitor (btop)
-mlx network           # Network monitor (nettop)
-mlx status            # System status
-mlx logs              # Live API logs
-mlx config            # Edit settings
-mlx --help            # Help
-```
-
-## Mac Setup
-
-Before using this tool, you need:
-
-1. **MLX API Server** running on the Mac
-2. **Python venv** with dependencies
-3. **SSH access** (key-based auth recommended)
-
-### On Your Mac
+### 5. Chat!
 
 ```bash
-# 1. Clone or download the MLX API server
-# (This example assumes it's at ~/security-ai/multi-model-api)
+mlx chat
 
-# 2. Create venv
-cd ~/security-ai
-python3 -m venv .venv
-source .venv/bin/activate
-
-# 3. Install dependencies
-pip install mlx mlx-lm huggingface_hub
-
-# 4. Start the server
-python multi-model-api/server.py
+# → Pick model → Ask question → Get answer
 ```
 
-The server should listen on `http://127.0.0.1:8080` (or configure via `MLX_API_URL`).
+---
 
-### SSH Configuration
+## Commands
 
-For passwordless access:
 ```bash
-# On your Arch machine
-ssh-copy-id timkusenko@your-mac-ip
+mlx              # Open menu (all options)
+mlx chat         # Quick chat with AI
+mlx editor       # Chat + system prompt + settings
+mlx models       # Download/delete models
+mlx monitor      # Watch CPU/RAM on Mac (btop)
+mlx network      # Watch network traffic (nettop)
+mlx status       # Quick system check
+mlx logs         # See API errors live
+mlx config       # Edit settings
+mlx init         # Setup again
 ```
+
+---
 
 ## Configuration
 
-### Files
+Your settings are saved in:
+- `~/.config/mlx-control/settings.json` – temperature, max_tokens
+- `~/.config/mlx-control/system-prompt.txt` – your custom AI instructions
+- `~/.config/mlx-api/api-key` – your authentication (secret!)
 
-- **Settings**: `~/.config/mlx-control/settings.json`
-  - `temperature` (0.0–2.0, default 0.7)
-  - `max_tokens` (1–8192, default 512)
-- **System Prompt**: `~/.config/mlx-control/system-prompt.txt`
-- **API Key**: `~/.config/mlx-api/api-key` (mode 0600, never commit)
+---
 
-### Environment Variables
+## Troubleshooting
 
+### "Mac: Unreachable"
 ```bash
-export MLX_MAC_HOST="user@your-mac-ip"
-export MLX_API_URL="http://api-server:8080"
+# Check SSH connection:
+ssh tim@192.168.178.49 'uname -a'
+
+# Check MLX_MAC_HOST env var:
+echo $MLX_MAC_HOST
 ```
+
+### "API: OFFLINE"
+```bash
+# Check server is running on Mac:
+curl http://127.0.0.1:8080/status
+
+# Check MLX_API_URL env var:
+echo $MLX_API_URL
+```
+
+### "No API key"
+```bash
+# Run setup again:
+mlx init
+```
+
+---
+
+## Requirements
+
+- **Python** 3.9+
+- **SSH access** to your Mac
+- **MLX server** running on Mac (listening on a port)
+- **Network**: Laptop and Mac on same WiFi
+
+---
 
 ## Architecture
 
 ```
 mlx_control/
-├── __main__.py         Command routing
-├── commands.py         All menu handlers
-├── config.py           Settings management
-├── api.py              HTTP API client
-├── ssh_remote.py       SSH operations
-├── models.py           Model parsing
-├── chat.py             Chat session
-├── huggingface.py      HF model download/delete
-└── cli.py              Menu utilities
+├── __main__.py       Command routing
+├── commands.py       All menu handlers
+├── config.py         Settings & API key storage
+├── api.py            Talk to MLX server
+├── ssh_remote.py     Control Mac via SSH
+├── models.py         Parse model names
+├── chat.py           Chat session logic
+├── huggingface.py    Download/delete models
+└── cli.py            Menu UI
 ```
+
+---
 
 ## Development
 
@@ -140,44 +186,21 @@ source venv/bin/activate
 pip install -e ".[dev]"
 ```
 
-### Testing
+### Test
 
 ```bash
-pytest tests/ -v
-black mlx_control tests
-mypy mlx_control --ignore-missing-imports
+pytest tests/
 ```
 
 ### Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md)
 
-## Requirements
-
-- **Python** 3.9+
-- **SSH access** to Mac mini
-- **MLX API server** running on Mac
-- Standard library only (no pip dependencies for the client)
-
-## Troubleshooting
-
-### "API: OFFLINE"
-- Confirm MLX API server is running on Mac: `curl http://localhost:8080/status`
-- Check `MLX_API_URL` environment variable
-- Verify network connectivity to Mac
-
-### "Mac: Unreachable"
-- Test SSH: `ssh user@your-mac.local 'uname -a'`
-- Check `MLX_MAC_HOST` environment variable
-- Ensure SSH key is configured
-
-### "No API key"
-- Run `mlx init` to set up credentials
-- Manually create: `~/.config/mlx-api/api-key` with your token
+---
 
 ## License
 
-MIT – See [LICENSE](LICENSE)
+MIT – [LICENSE](LICENSE)
 
 ## Author
 
@@ -185,5 +208,4 @@ Tim Kusenko
 
 ---
 
-**GitHub**: https://github.com/your-org/mlx-control-center  
-**Issues**: Report bugs and feature requests on GitHub
+**Questions?** Check [SECURITY.md](SECURITY.md) or open an issue on GitHub.
