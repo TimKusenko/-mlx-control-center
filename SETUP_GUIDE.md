@@ -1,8 +1,6 @@
-# Complete Setup Guide – From Zero to ChatGPT on Your Mac
+# Setup Guide
 
-**For people who have nothing installed yet.**
-
-Works with any computer (Linux, Mac, Windows) and any Mac.
+How to get MLX Control Center running from scratch.
 
 ---
 

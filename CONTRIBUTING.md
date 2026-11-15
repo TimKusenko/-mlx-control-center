@@ -92,9 +92,9 @@ pytest tests/ -v --cov=mlx_control --cov-report=html
 
 Example: `feat: add model download progress bar`
 
-## Pull Request Template
+## Pull Requests
 
-Your PR should include:
+When submitting a PR:
 
 - **Description** — What problem does this solve?
 - **Type** — Bug fix, feature, refactor, etc.

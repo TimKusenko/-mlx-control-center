@@ -1,8 +1,7 @@
-"""MLX Control Center — Remote control for MLX inference API."""
+"""Remote control for MLX on Mac."""
 
 __version__ = "2.0.0"
-__author__ = "Contributors"
-__description__ = "Remote control and monitoring for MLX models running on your Mac"
+__description__ = "Control MLX models on Mac from your computer via SSH"
 
 from .config import Config
 from .api import APIClient
