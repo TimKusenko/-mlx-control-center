@@ -205,7 +205,7 @@ class Commands:
         """View live logs."""
         print("📋 Logs (Ctrl+C to stop)")
         try:
-            log_path = "~/security-ai/multi-model-api/logs"
+            log_path = self.config.log_dir
             choice = self._select_option(
                 ["server.log", "error.log"],
                 "Which log?"

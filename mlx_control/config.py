@@ -17,7 +17,7 @@ class Config:
         import os
         self.mac_host = os.environ.get("MLX_MAC_HOST", "user@your-mac.local")
         self.api_url = os.environ.get("MLX_API_URL", "http://127.0.0.1:8080").rstrip("/")
-        self.log_dir = "~/security-ai/multi-model-api/logs"
+        self.log_dir = os.environ.get("MLX_LOG_DIR", "~/mlx-workspace/logs")
 
     def ensure_dirs(self) -> None:
         """Create config directories if missing."""

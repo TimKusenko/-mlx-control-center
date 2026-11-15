@@ -138,7 +138,10 @@ print("Cache deleted.")
         """Execute Hugging Face operation on Mac."""
         encoded = base64.b64encode(script.encode()).decode()
         launcher = f"import base64;exec(compile(base64.b64decode({repr(encoded)!r}),\"<hf>\",\"exec\"))"
-        remote_cmd = f"~/security-ai/.venv/bin/python -c {shlex.quote(launcher)}"
+        # Use MLX_VENV_PYTHON env var to override default venv path
+        import os
+        venv_python = os.environ.get('MLX_VENV_PYTHON', '~/mlx-workspace/venv/bin/python')
+        remote_cmd = f"{venv_python} -c {shlex.quote(launcher)}"
 
         args = ["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=8"]
         args += ["-tt" if interactive else "-T"]

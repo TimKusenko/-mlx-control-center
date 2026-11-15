@@ -51,9 +51,9 @@ MLX = Machine Learning on Apple Silicon. It's the framework that runs the AI mod
 # Install MLX
 brew install python@3.11
 
-# Create a working directory
-mkdir -p ~/mlx-workspace
-cd ~/mlx-workspace
+# Create a working directory for MLX
+mkdir -p ~/mlx-server
+cd ~/mlx-server
 
 # Create Python environment
 python3.11 -m venv venv
@@ -76,10 +76,10 @@ Now you have:
 **Still on Mac, in Terminal:**
 
 ```bash
-cd ~/mlx-workspace
+cd ~/mlx-server
 source venv/bin/activate
 
-# Create a simple API server script
+# Create a simple API server script (or use your existing one)
 cat > server.py << 'EOF'
 from mlx_lm import load, generate
 from http.server import HTTPServer, BaseHTTPRequestHandler
